@@ -11,13 +11,10 @@ const CONTENT = {
   /* ---------- opening screen (the Undertale "CHECK") ---------- */
   home: {
     lines: [
-      "LUCAS LUTAR   HP 20/20",
-      "ATK 12(9)   DEF 7(5)",
-      "An economist. Attacks with panel data.",
+      "LUCAS LUTAR",
       "MSc Economics & Policy, King's College London.",
       "  Distinction expected, Sep 2026.",
       "BA Economics, Cornell. GPA 3.74, Dean's List.",
-      "Owns data end to end, and says what it means.",
       "Choose an option below."
     ]
   },
@@ -25,8 +22,8 @@ const CONTENT = {
   /* ---------- RESEARCH ---------- */
   research: {
     label: "RESEARCH",
-    blurb: "* What I've fought with.",
-    prompt: "* Pick your battle.",
+    blurb: "* What I've worked on.",
+    prompt: "* Pick one.",
     list: [
       {
         name: "TAN LINES AND STATE LINES",
@@ -154,8 +151,8 @@ const CONTENT = {
   /* ---------- SKILLS and key items ---------- */
   skills: {
     label: "SKILLS",
-    blurb: "* What's in the bag.",
-    prompt: "* 6 items.",
+    blurb: "* What I can do.",
+    prompt: "* Pick one.",
     list: [
       {
         name: "CODE",
@@ -163,7 +160,7 @@ const CONTENT = {
           "Python, R, Stata, SQL, GDScript.",
           "Python is the working language: pandas,",
           "  statsmodels, NumPy, matplotlib.",
-          "GDScript because of the RPG. See KEY ITEMS."
+          "GDScript came from building the RPG."
         ]
       },
       {
@@ -188,16 +185,15 @@ const CONTENT = {
         ]
       },
       {
-        name: "★ FENCING GOLD",
+        name: "FENCING GOLD",
         lines: [
           "Captain, Peruvian National Fencing Team.",
           "Gold medal for Peru, 2022 Bolivarian Games.",
-          "Ranked top 200 globally. Olympic hopeful.",
-          "It's heavier than it looks."
+          "Ranked top 200 globally. Olympic hopeful."
         ]
       },
       {
-        name: "★ THE RPG",
+        name: "THE RPG",
         lines: [
           "A complete 2D role-playing game, built alone",
           "  in Godot and GDScript. Self-taught.",
@@ -207,7 +203,7 @@ const CONTENT = {
         ]
       },
       {
-        name: "★ THE LEDGER",
+        name: "THE LEDGER",
         lines: [
           "Treasurer (Exchequer), Sigma Alpha Mu.",
           "Managed $350,000+ in housing and event funds.",

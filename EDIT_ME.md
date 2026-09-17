@@ -10,13 +10,14 @@ Everything below is in `assets/js/content.js` unless noted.
 - **"Code + Data available on request."** Your CV says this about the
   dissertation, but the repository is public. Worth changing the CV line to
   link the repo directly — it's a stronger signal than "on request".
-- **HP / ATK / DEF.** `CONTENT.home` opens with `HP 20/20` and
-  `ATK 12(9) DEF 7(5)` as a joke. Change the numbers, or cut those two
-  lines if you'd rather open straight into the summary.
-- **Tone.** The flavour text is mine, not yours — `"An economist. Attacks
-  with panel data."`, `"It's heavier than it looks."` (fencing gold),
-  `"This website is, more or less, its fault."` (the RPG). Rewrite anything
-  that doesn't sound like you.
+- **The HP bar in the header.** Still there, in `index.html` (`.hud`). The
+  ATK/DEF/HP lines are gone from the opening text; delete the four `.hud__hp`
+  / `.hud__bar` / `.hud__num` spans if you want the bar gone too.
+- **Tone.** Some flavour text is still mine, not yours — e.g. `"This website
+  is, more or less, its fault."` (THE RPG). Rewrite anything that doesn't
+  sound like you.
+- **The cursor** is a pixel mouse drawn as an SVG in `--cursor-svg` at the
+  top of `style.css`. Each `<rect>` is one pixel on a 16x16 grid.
 
 ## If you add a section
 

@@ -1,7 +1,7 @@
 # msyxorap.github.io
 
 Lucas Lutar's interactive CV. An Undertale-style battle menu: a dialogue
-box, four buttons, and a red heart for a cursor.
+box, four buttons, and a pixel mouse for a cursor.
 
 Live at **https://msyxorap.github.io**
 
