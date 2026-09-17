@@ -1,0 +1,239 @@
+/* ============================================================
+   Lucas Lutar — interactive CV
+   Undertale-flavoured. Black, pixel type, one box, four buttons.
+   ============================================================ */
+
+:root{
+  --ink:#ffffff;
+  --bg:#000000;
+  --orange:#ff9d00;      /* button idle */
+  --yellow:#ffff00;      /* button selected / HP */
+  --heart:#ff0000;       /* the soul */
+  --dim:#8a8a8a;
+  --edge:4px;
+  --box:min(760px,100%);
+  --heart-svg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cg fill='%23ff0000'%3E%3Crect x='2' y='3' width='4' height='1'/%3E%3Crect x='10' y='3' width='4' height='1'/%3E%3Crect x='1' y='4' width='6' height='1'/%3E%3Crect x='9' y='4' width='6' height='1'/%3E%3Crect x='1' y='5' width='14' height='3'/%3E%3Crect x='2' y='8' width='12' height='1'/%3E%3Crect x='3' y='9' width='10' height='1'/%3E%3Crect x='4' y='10' width='8' height='1'/%3E%3Crect x='5' y='11' width='6' height='1'/%3E%3Crect x='6' y='12' width='4' height='1'/%3E%3Crect x='7' y='13' width='2' height='1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
+
+body{
+  margin:0;
+  min-height:100svh;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"VT323",ui-monospace,"Courier New",monospace;
+  font-size:clamp(20px,1.1vw + 17px,26px);
+  line-height:1.25;
+  -webkit-font-smoothing:none;
+  font-smooth:never;
+  display:flex;flex-direction:column;
+  overflow-x:hidden;
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+
+::selection{background:var(--yellow);color:#000}
+
+/* skip link — visible only on keyboard focus */
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:99;
+  background:var(--yellow);color:#000;padding:.4em .8em;
+  font-family:"Press Start 2P",monospace;font-size:11px;text-decoration:none;
+}
+.skip:focus{left:8px;top:8px}
+
+/* ============================================================
+   GAME AREA
+   ============================================================ */
+.game{
+  flex:1;
+  width:var(--box);
+  margin:0 auto;
+  padding:clamp(16px,4vh,40px) clamp(12px,3vw,20px) clamp(20px,4vh,40px);
+  display:flex;flex-direction:column;
+  justify-content:center;
+  gap:clamp(12px,2.2vh,22px);
+}
+
+/* ---------- HUD ---------- */
+.hud{
+  display:flex;align-items:center;flex-wrap:wrap;
+  gap:6px clamp(10px,2vw,18px);
+  font-family:"Press Start 2P",monospace;
+  font-size:clamp(9px,1.3vw,12px);
+  line-height:1.6;
+}
+.hud__name{color:var(--ink)}
+.hud__meta{color:var(--dim)}
+.hud__hp{color:var(--ink);margin-left:auto}
+.hud__bar{
+  display:block;width:clamp(60px,10vw,96px);height:16px;
+  background:var(--heart);
+  border:2px solid #000;outline:2px solid #3a3a3a;
+}
+.hud__bar i{display:block;height:100%;width:100%;background:var(--yellow)}
+.hud__num{color:var(--ink);font-size:clamp(8px,1.1vw,11px)}
+@media (max-width:560px){
+  .hud__hp{margin-left:0}
+  .hud{justify-content:flex-start}
+}
+
+/* ---------- THE BOX ---------- */
+.box{
+  border:var(--edge) solid var(--ink);
+  background:var(--bg);
+  min-height:min(58svh,420px);
+  display:flex;
+}
+.box__inner{
+  flex:1;
+  padding:clamp(14px,2.6vw,26px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:var(--dim) #000;
+}
+.box__inner:focus{outline:none}
+.box__inner::-webkit-scrollbar{width:10px}
+.box__inner::-webkit-scrollbar-thumb{background:var(--dim)}
+
+/* a dialogue line: "* text" with the asterisk hanging in the margin */
+.ln{
+  display:block;
+  padding-left:1.6ch;
+  text-indent:-1.6ch;
+  margin:0 0 .12em;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+.ln--cont{text-indent:0;padding-left:1.6ch}
+.ln b{color:var(--yellow);font-weight:400}
+
+/* blinking caret while text is still typing */
+.caret{
+  display:inline-block;width:.55ch;height:1em;
+  background:var(--ink);vertical-align:-.12em;
+  animation:blink .8s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- selectable list inside the box ---------- */
+.opts{list-style:none;margin:.9em 0 0;padding:0;display:grid;gap:.18em}
+.opt{
+  appearance:none;border:0;background:transparent;color:var(--ink);
+  font:inherit;text-align:left;cursor:pointer;
+  display:flex;align-items:center;gap:1ch;
+  padding:.12em 0 .12em 0;width:100%;
+}
+.opt::before{
+  content:"";flex:none;
+  width:1.1em;height:1.1em;
+  background:var(--heart-svg) center/contain no-repeat;
+  opacity:0;
+}
+.opt.is-sel::before{opacity:1}
+.opt.is-sel{color:var(--yellow)}
+.opt:focus{outline:none}
+.opt:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.opt:hover{color:var(--yellow)}
+
+/* two columns when the list is long and there's room */
+@media (min-width:620px){
+  .opts--2{grid-template-columns:1fr 1fr;gap:.18em 2ch}
+}
+
+/* ---------- an action link inside the box ---------- */
+.go{
+  display:inline-block;margin-top:1em;
+  font-family:"Press Start 2P",monospace;
+  font-size:clamp(9px,1.2vw,11px);line-height:1.5;
+  color:var(--yellow);text-decoration:none;
+  border:3px solid var(--yellow);
+  padding:.7em 1em;
+}
+.go:hover,.go:focus-visible{background:var(--yellow);color:#000;outline:none}
+
+/* ============================================================
+   BUTTON ROW
+   ============================================================ */
+.btns{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:clamp(8px,1.6vw,16px);
+}
+.btn{
+  appearance:none;cursor:pointer;
+  background:var(--bg);
+  border:3px solid var(--orange);
+  color:var(--orange);
+  font-family:"Press Start 2P",monospace;
+  font-size:clamp(9px,1.5vw,14px);
+  line-height:1;
+  padding:clamp(10px,1.8vh,16px) 4px;
+  display:flex;align-items:center;justify-content:center;gap:.7ch;
+  transition:color .08s linear,border-color .08s linear;
+}
+.btn__heart{
+  flex:none;width:1.1em;height:1.1em;
+  background:var(--heart-svg) center/contain no-repeat;
+  opacity:0;
+}
+.btn.is-sel{border-color:var(--yellow);color:var(--yellow)}
+.btn.is-sel .btn__heart{opacity:1}
+.btn:hover{color:var(--yellow);border-color:var(--yellow)}
+.btn:focus{outline:none}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.btn.is-open{background:var(--orange);color:#000;border-color:var(--orange)}
+.btn.is-open .btn__heart{opacity:0}
+
+@media (max-width:560px){
+  .btns{grid-template-columns:1fr 1fr}
+  .btn__t{letter-spacing:0}
+}
+
+/* ============================================================
+   CONTROL HINTS
+   ============================================================ */
+.keys{
+  margin:0;
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:6px clamp(10px,2vw,18px);
+  font-family:"Press Start 2P",monospace;
+  font-size:clamp(8px,1vw,10px);
+  line-height:1.8;
+  color:var(--dim);
+}
+.keys b{color:var(--ink);font-weight:400}
+.keys__b{
+  appearance:none;cursor:pointer;
+  background:transparent;border:2px solid var(--dim);
+  color:var(--dim);
+  font-family:inherit;font-size:inherit;line-height:1.4;
+  padding:.45em .7em;
+}
+.keys__b:hover,.keys__b:focus-visible{color:var(--ink);border-color:var(--ink);outline:none}
+.keys__b[aria-pressed="true"]{color:var(--yellow);border-color:var(--yellow)}
+@media (hover:none){.keys__g{display:none}}
+
+/* ============================================================
+   PLAIN-TEXT CV  (no-JS fallback + screen readers + crawlers)
+   Hidden once the game boots; always reachable via the skip link.
+   ============================================================ */
+.plain{
+  max-width:74ch;margin:0 auto;padding:40px 20px 80px;
+  font-family:"VT323",ui-monospace,monospace;
+  border-top:var(--edge) solid var(--ink);
+}
+body.js-on .plain{display:none}
+body.js-on .plain:target{display:block}
+.plain h1{font-family:"Press Start 2P",monospace;font-size:18px;line-height:1.6;margin:0 0 .6em}
+.plain h2{font-family:"Press Start 2P",monospace;font-size:13px;line-height:1.7;margin:1.8em 0 .5em;color:var(--yellow)}
+.plain h3{font-size:1.05em;margin:1.2em 0 .2em;color:var(--ink)}
+.plain h3 small{color:var(--dim);font-size:.85em;float:right}
+.plain p,.plain li{color:#d8d8d8}
+.plain a{color:var(--yellow)}

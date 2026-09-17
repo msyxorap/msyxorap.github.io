@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lucas Lutar</title>
+<meta name="description" content="Lucas Lutar — economist. MSc Economics &amp; Policy (King's College London), BA Economics (Cornell). CV, research and contact.">
+<meta name="theme-color" content="#000000">
+<link rel="preload" href="assets/fonts/VT323-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/PressStart2P-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23000'/><path d='M8 13 L3 8 A3 3 0 0 1 8 4 A3 3 0 0 1 13 8 Z' fill='%23f00'/></svg>">
+</head>
+<body>
+
+<a class="skip" href="#plain">Skip to plain-text CV</a>
+
+<main class="game" id="game">
+
+  <!-- ---------- HUD ---------- -->
+  <header class="hud">
+    <span class="hud__name">LUCAS LUTAR</span>
+    <span class="hud__meta">MSC ECON &amp; POLICY</span>
+    <span class="hud__hp">HP</span>
+    <span class="hud__bar"><i id="hpFill"></i></span>
+    <span class="hud__num">20 / 20</span>
+  </header>
+
+  <!-- ---------- DIALOGUE BOX ---------- -->
+  <section class="box">
+    <div class="box__inner" id="screen" tabindex="-1" aria-live="polite" aria-atomic="false">
+      <!-- filled by app.js -->
+    </div>
+  </section>
+
+  <!-- ---------- BUTTON ROW ---------- -->
+  <nav class="btns" id="btns" aria-label="Main menu">
+    <button class="btn" data-key="fight" type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">FIGHT</span></button>
+    <button class="btn" data-key="act"   type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">ACT</span></button>
+    <button class="btn" data-key="item"  type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">ITEM</span></button>
+    <button class="btn" data-key="mercy" type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">MERCY</span></button>
+  </nav>
+
+  <!-- ---------- CONTROL HINT ---------- -->
+  <p class="keys">
+    <span class="keys__g"><b>&larr;&rarr;&uarr;&darr;</b> move</span>
+    <span class="keys__g"><b>Z</b>&thinsp;/&thinsp;<b>Enter</b> confirm</span>
+    <span class="keys__g"><b>X</b>&thinsp;/&thinsp;<b>Esc</b> back</span>
+    <button class="keys__b" id="sndBtn" type="button">SOUND: OFF</button>
+    <button class="keys__b" id="spdBtn" type="button">TEXT: NORMAL</button>
+  </p>
+
+</main>
+
+<!-- ============================================================
+     Plain-text CV. This is the whole thing without JavaScript —
+     screen readers, crawlers and no-JS visitors get everything.
+     ============================================================ -->
+<section class="plain" id="plain">
+  <h1>Lucas Lutar</h1>
+  <p>Brewster, NY &middot; <a href="mailto:lucasnlutar@gmail.com">lucasnlutar@gmail.com</a></p>
+
+  <h2>Summary</h2>
+  <p>MSc Economics &amp; Policy (Distinction expected, King's College London) and BA
+  Economics (Cornell), with hands-on experience across finance, healthcare
+  technology and policy. Combines rigorous econometrics and causal inference with
+  real programming ability (Python, R, self-built applications) and advanced Excel
+  modelling. Comfortable owning data end to end: extraction, cleaning, analysis,
+  visualisation, and translating findings into clear recommendations for senior
+  stakeholders.</p>
+
+  <h2>Education</h2>
+  <h3>King's College London &mdash; MSc Economics &amp; Policy, Distinction expected <small>Sep 2025 &ndash; Sep 2026</small></h3>
+  <p>Coursework: Advanced Econometrics, Causal Inference, Advanced Microeconomics,
+  Advanced Macroeconomics, Evaluating Public Policy.</p>
+  <h3>Cornell University &mdash; BA Economics, GPA 3.74, Dean's List, HSF Recipient <small>Aug 2021 &ndash; Dec 2024</small></h3>
+  <p>Coursework: Applied Econometrics, Probability Models, Advanced International
+  Finance, Python. Teaching Assistant, Introduction to Microeconomics (Fall 2024):
+  supported a ~200-student lecture course.</p>
+
+  <h2>Research</h2>
+  <h3>Tan Lines and State Lines: Tourism, Housing Pressure, and Resident Out-Migration from Hawai&#699;i</h3>
+  <p>MSc Dissertation, King's College London, 2026 (10,899 words). Built two original
+  county-year panels &mdash; a Hawai&#699;i panel (1990&ndash;2022) and a 1,000+ county national
+  panel &mdash; harmonising six government sources in a reproducible Python pipeline.
+  Estimated fixed-effects models with inference valid at small cluster counts (wild
+  cluster bootstrap, Driscoll&ndash;Kraay errors) plus two natural experiments: Hurricane
+  Iniki (1992) and a COVID-19 synthetic control for Maui.
+  <a href="https://github.com/msyxorap/hawaii_tourism_migration">Code and data</a>.</p>
+  <h3>King's Think Tank &mdash; Policy Analyst, Migration Economics <small>Nov 2025 &ndash; Aug 2026</small></h3>
+  <p>Analysed recruitment fees, remittance costs and policy shocks as structural
+  frictions in labour migration using World Bank, ILO and UN DESA data. Published
+  &ldquo;The Development Tax on Mobility&rdquo; (King's Think Tank, Jan 2026).</p>
+
+  <h2>Technical skills</h2>
+  <p><strong>Programming &amp; statistical:</strong> Python, R, Stata, SQL, GDScript (Godot).<br>
+  <strong>Methods:</strong> Econometrics, causal inference, natural-experiment and
+  quasi-experimental design, fixed-effects panel models, scenario and sensitivity analysis.<br>
+  <strong>Data &amp; reporting:</strong> Panel data construction, data cleaning and wrangling,
+  advanced Excel (modelling, macros, automation), financial modelling, dashboards,
+  data visualisation.</p>
+
+  <h2>Professional experience</h2>
+  <h3>Epic Systems &mdash; Project Manager, Healthcare Data &amp; Billing, Madison, WI <small>Jan 2025 &ndash; Aug 2025</small></h3>
+  <p>Built dashboards in Epic's analytics tools (Slicer Dicer, Clarity) and analysed
+  hospital operational and billing data for hospital leadership. Maintained
+  Excel-based billing quality reports using macros. Led Penn State Health's billing
+  implementation transition and trained specialist teams; supported OCHIN Epic
+  rollouts. Delivered product demos and implementation roadmaps to senior executives.</p>
+  <h3>Amazon &mdash; HR Business Partner, Data &amp; Process, Carteret, NJ <small>Jun 2024 &ndash; Aug 2024</small></h3>
+  <p>Led regional research across six sites, analysing HR policy data to identify
+  process improvements that reduced attrition by 50% at my site.</p>
+  <h3>Maplelane Capital &mdash; Analyst, Investment Data &amp; Modeling, New York, NY <small>May 2024 &ndash; Jun 2024</small></h3>
+  <p>Analysed alternative datasets including credit-card transaction and web-traffic
+  data. Built financial models and ran scenario and sensitivity analysis.</p>
+  <h3>Silver Point Capital &mdash; Intern, Data &amp; Vendor Analysis, Greenwich, CT <small>Jun 2023 &ndash; Aug 2023</small></h3>
+  <p>Built a master vendor Excel model with macros consolidating agreements across
+  300+ recruiting agencies. Created structured datasets of 300+ firms; monitored
+  expert calls for SEC compliance.</p>
+
+  <h2>Distinctions &amp; projects</h2>
+  <ul>
+    <li>Peruvian National Fencing Team, Captain. Gold medal for Peru, 2022 Bolivarian
+    Games; ranked top 200 globally; Olympic hopeful.</li>
+    <li>Publication: &ldquo;The Development Tax on Mobility,&rdquo; King's Think Tank Blog, Jan 2026.</li>
+    <li>Self-built 2D RPG (Godot/GDScript): independently designed and programmed a
+    complete 2D role-playing game, self-taught.</li>
+    <li>Sigma Alpha Mu, Treasurer (Exchequer): managed $350,000+ in housing and event funds.</li>
+  </ul>
+</section>
+
+<script src="assets/js/content.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
