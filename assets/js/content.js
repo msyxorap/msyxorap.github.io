@@ -1,14 +1,6 @@
-/* ============================================================
-   CONTENT — everything the site says lives here.
-   To update the CV, edit this file. Nothing else needs touching.
-
-   Each line is one "* " bullet in the dialogue box.
-   A line starting with "  " (two spaces) continues the line above
-   without a new bullet.
-   ============================================================ */
 const CONTENT = {
 
-  /* ---------- opening screen (the Undertale "CHECK") ---------- */
+  /* ---------- opening screen ---------- */
   home: {
     lines: [
       "LUCAS LUTAR",
@@ -46,7 +38,7 @@ const CONTENT = {
           "  the housing margin; tourism employment holds",
           "  them in place.",
           "Every script, every raw file, every table is",
-          "  public. Go and look."
+          "  public."
         ],
         link: { href: "https://github.com/msyxorap/hawaii_tourism_migration", label: "OPEN THE REPOSITORY" }
       },
@@ -106,7 +98,7 @@ const CONTENT = {
           "  Carteret, NJ. Jun 2024 - Aug 2024.",
           "Led regional research across six sites.",
           "Identified process improvements that cut",
-          "  attrition by 50% at my site.",
+          "  attrition by a projected 50% at my site.",
           "Assessed how organisational changes hit",
           "  employee outcomes and productivity."
         ]
@@ -181,7 +173,7 @@ const CONTENT = {
           "Cleaning and wrangling; documented series",
           "  breaks rather than quiet fixes.",
           "Advanced Excel: modelling, macros, automation.",
-          "Financial modelling, dashboards, data viz."
+          "Financial modelling, dashboards, data visualization."
         ]
       },
       {
@@ -196,18 +188,14 @@ const CONTENT = {
         name: "THE RPG",
         lines: [
           "A complete 2D role-playing game, built alone",
-          "  in Godot and GDScript. Self-taught.",
-          "Design, programming, systems, data — all of it,",
-          "  end to end.",
-          "This website is, more or less, its fault."
+          "  in Godot and GDScript."
         ]
       },
       {
         name: "THE LEDGER",
         lines: [
           "Treasurer (Exchequer), Sigma Alpha Mu.",
-          "Managed $350,000+ in housing and event funds.",
-          "Every number had to reconcile. They did."
+          "Managed $350,000+ in housing and event funds."
         ]
       }
     ]
@@ -221,13 +209,13 @@ const CONTENT = {
     list: [
       {
         name: "EMAIL",
-        lines: ["lucasnlutar@gmail.com", "Fastest way to reach me."],
+        lines: ["lucasnlutar@gmail.com"],
         link: { href: "mailto:lucasnlutar@gmail.com", label: "SEND MAIL" }
       },
       {
         name: "GITHUB",
-        lines: ["github.com/msyxorap", "The dissertation pipeline lives here."],
-        link: { href: "https://github.com/msyxorap", label: "OPEN GITHUB" }
+        lines: ["github.com/msyxorap/hawaii_tourism_migration"],
+        link: { href: "https://github.com/msyxorap/hawaii_tourism_migration", label: "OPEN GITHUB" }
       },
       {
         name: "LINKEDIN",
@@ -236,7 +224,6 @@ const CONTENT = {
       },
       {
         name: "DOWNLOAD CV",
-        lines: ["The whole thing as a PDF.", "Two pages."],
         link: { href: "assets/cv.pdf", label: "DOWNLOAD PDF", download: true }
       }
     ]

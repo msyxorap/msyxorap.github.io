@@ -1,9 +1,3 @@
-/* ============================================================
-   Lucas Lutar — interactive CV
-   Undertale-style menu: typewriter text, a heart cursor, and
-   three levels (buttons -> list -> detail).
-   Vanilla JS, no dependencies.
-   ============================================================ */
 (() => {
   'use strict';
 
@@ -74,7 +68,7 @@
   /* Browsers start the audio context suspended until the visitor interacts.
      While suspended currentTime does not advance, so anything scheduled
      piles up on the same timestamp and all of it fires at once the moment
-     the context resumes — a loud pop. So: resume on the first real gesture,
+     the context resumes. So: resume on the first real gesture,
      and never schedule anything unless the context is actually running. */
   function unlockAudio(){
     const a = ensureCtx();
