@@ -4,6 +4,7 @@ const CONTENT = {
   home: {
     lines: [
       "LUCAS LUTAR",
+      "I hope you enjoy the silly website!",
       "MSc Economics & Policy, King's College London.",
       "  Distinction expected, Sep 2026.",
       "BA Economics, Cornell. GPA 3.74, Dean's List.",
@@ -15,7 +16,7 @@ const CONTENT = {
   research: {
     label: "RESEARCH",
     blurb: "* What I've worked on.",
-    prompt: "* Pick one.",
+    prompt: "* Hope you enjoy!",
     list: [
       {
         name: "TAN LINES AND STATE LINES",
@@ -59,7 +60,7 @@ const CONTENT = {
   experience: {
     label: "EXPERIENCE",
     blurb: "* Where I've worked.",
-    prompt: "* Which one?",
+    prompt: "* Which one do ya wanna see?",
     list: [
       {
         name: "EPIC SYSTEMS",
@@ -140,14 +141,14 @@ const CONTENT = {
     ]
   },
 
-  /* ---------- SKILLS and key items ---------- */
+  /* ---------- SKILLS and misc area ---------- */
   skills: {
     label: "SKILLS",
     blurb: "* What I can do.",
-    prompt: "* Pick one.",
+    prompt: "* Choose Choose Choose",
     list: [
       {
-        name: "CODE",
+        name: "CODE I'M FAMILIAR WITH",
         lines: [
           "Python, R, Stata, SQL, GDScript.",
           "Python is the working language: pandas,",
@@ -167,32 +168,34 @@ const CONTENT = {
         ]
       },
       {
-        name: "DATA & REPORTING",
+        name: "DATA & REPORTING o7",
         lines: [
-          "Panel construction from hostile sources.",
+          "Panel construction from numerous publically available",
+          "   data sources",
           "Cleaning and wrangling; documented series",
-          "  breaks rather than quiet fixes.",
           "Advanced Excel: modelling, macros, automation.",
           "Financial modelling, dashboards, data visualization."
         ]
       },
       {
-        name: "FENCING GOLD",
+        name: "FENCING!",
         lines: [
           "Captain, Peruvian National Fencing Team.",
           "Gold medal for Peru, 2022 Bolivarian Games.",
-          "Ranked top 200 globally. Olympic hopeful."
+          "Ranked top 200 globally."
         ]
       },
       {
-        name: "THE RPG",
+        name: "2D GAME :D",
         lines: [
           "A complete 2D role-playing game, built alone",
-          "  in Godot and GDScript."
+          "  in Godot and GDScript.",
+          "CHeck it out when I eventually drop it!",
+          "Of course when I get a job though..."
         ]
       },
       {
-        name: "THE LEDGER",
+        name: "TREASURER $$!$!",
         lines: [
           "Treasurer (Exchequer), Sigma Alpha Mu.",
           "Managed $350,000+ in housing and event funds."
@@ -204,26 +207,27 @@ const CONTENT = {
   /* ---------- CONTACT ---------- */
   contact: {
     label: "CONTACT",
-    blurb: "* Talk to me.",
-    prompt: "* Go ahead.",
+    blurb: "* Hai, I am reachable at these areas.",
+    prompt: "* Click 'em!",
     list: [
       {
         name: "EMAIL",
-        lines: ["lucasnlutar@gmail.com"],
+        lines: ["Here I am!! lucasnlutar@gmail.com"],
         link: { href: "mailto:lucasnlutar@gmail.com", label: "SEND MAIL" }
       },
       {
         name: "GITHUB",
-        lines: ["github.com/msyxorap/hawaii_tourism_migration"],
+        lines: ["You could just go to the homepage, but I guess"],
         link: { href: "https://github.com/msyxorap/hawaii_tourism_migration", label: "OPEN GITHUB" }
       },
       {
         name: "LINKEDIN",
-        lines: ["linkedin.com/in/lucas-lutar"],
+        lines: ["Check it out here!!"],
         link: { href: "https://www.linkedin.com/in/lucas-lutar/", label: "OPEN LINKEDIN" }
       },
       {
         name: "DOWNLOAD CV",
+        lines: ["Attached below!"],
         link: { href: "assets/cv.pdf", label: "DOWNLOAD PDF", download: true }
       }
     ]
