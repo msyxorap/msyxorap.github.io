@@ -182,7 +182,9 @@ body{
   transition:color .08s linear,border-color .08s linear;
 }
 .btn__heart{
-  flex:none;width:1.8em;height:1.8em;
+  /* sized absolutely, not in em: the button font is tiny, so an em-based
+     cursor came out at ~20px and was easy to miss */
+  flex:none;width:clamp(22px,2.6vw,30px);height:clamp(22px,2.6vw,30px);
   background:var(--cursor-svg) center/contain no-repeat;
   image-rendering:pixelated;
   opacity:0;
