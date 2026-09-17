@@ -86,6 +86,133 @@
   };
 
   /* ----------------------------------------------------------
+     Music — an original chiptune loop, generated live.
+     There is no audio file; every note is an oscillator.
+     Am - Am - F - G - C - G - F - Am, 8 bars, 96bpm.
+     ---------------------------------------------------------- */
+  const SEMI = { C:0,'C#':1,D:2,'D#':3,E:4,F:5,'F#':6,G:7,'G#':8,A:9,'A#':10,B:11 };
+  function hz(name){
+    const m = /^([A-G]#?)(-?\d)$/.exec(name);
+    return 440 * Math.pow(2, (SEMI[m[1]] + (+m[2] - 4) * 12 - 9) / 12);
+  }
+
+  const BPM = 96, BEAT = 60 / BPM, LOOP_BEATS = 32;
+  /* [note, startBeat, lengthBeats] */
+  const LEAD = [
+    ['A4',0,2],['C5',2,1],['B4',3,1],
+    ['A4',4,2],['E4',6,2],
+    ['F4',8,2],['G4',10,1],['A4',11,1],
+    ['G4',12,4],
+    ['C5',16,2],['B4',18,1],['A4',19,1],
+    ['B4',20,2],['G4',22,2],
+    ['F4',24,2],['E4',26,2],
+    ['A4',28,4]
+  ];
+  const BASS = [
+    ['A2',0,2],['E3',2,2],   ['A2',4,2],['E3',6,2],
+    ['F2',8,2],['C3',10,2],  ['G2',12,2],['D3',14,2],
+    ['C3',16,2],['G3',18,2], ['G2',20,2],['D3',22,2],
+    ['F2',24,2],['C3',26,2], ['A2',28,2],['E3',30,2]
+  ];
+
+  let musicOn = store.get('music') === 'on';
+  /* Number(null) is 0, not NaN — check for "unset" before coercing,
+     or a first-time visitor gets music at volume zero. */
+  const storedVol = store.get('vol');
+  let vol = storedVol === null || storedVol === '' ? 35 : Number(storedVol);
+  if (!Number.isFinite(vol) || vol < 0 || vol > 100) vol = 35;
+
+  let musicGain = null, nextLoopAt = 0, loopTimer = null;
+
+  function gainValue(){ return (vol / 100) * 0.16; }   // capped: this is background
+
+  function voice(freq, at, dur, type, peak){
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, at);
+    g.gain.setValueAtTime(0.0001, at);
+    g.gain.linearRampToValueAtTime(peak, at + 0.02);
+    g.gain.setValueAtTime(peak, at + dur * 0.6);
+    g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+    o.connect(g).connect(musicGain);
+    o.start(at);
+    o.stop(at + dur + 0.05);
+  }
+
+  function scheduleLoop(){
+    const t = nextLoopAt;
+    LEAD.forEach(([n,b,l]) => voice(hz(n), t + b*BEAT, l*BEAT*0.92, 'triangle', 0.5));
+    BASS.forEach(([n,b,l]) => voice(hz(n), t + b*BEAT, l*BEAT*0.92, 'square',   0.16));
+    nextLoopAt += LOOP_BEATS * BEAT;
+  }
+
+  function startMusic(){
+    try {
+      actx ||= new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === 'suspended') actx.resume();
+      if (!musicGain){
+        musicGain = actx.createGain();
+        musicGain.connect(actx.destination);
+      }
+      musicGain.gain.setValueAtTime(gainValue(), actx.currentTime);
+      nextLoopAt = actx.currentTime + 0.15;
+      scheduleLoop();
+      clearInterval(loopTimer);
+      loopTimer = setInterval(() => {
+        if (!musicOn) return;
+        if (nextLoopAt - actx.currentTime < 1.2) scheduleLoop();
+      }, 300);
+    } catch { musicOn = false; paintMusic(); }
+  }
+
+  function stopMusic(){
+    clearInterval(loopTimer); loopTimer = null;
+    if (musicGain && actx){
+      /* fade out rather than cutting, then drop the node */
+      const t = actx.currentTime;
+      musicGain.gain.cancelScheduledValues(t);
+      musicGain.gain.setValueAtTime(musicGain.gain.value, t);
+      musicGain.gain.linearRampToValueAtTime(0.0001, t + 0.25);
+      const dying = musicGain;
+      musicGain = null;
+      setTimeout(() => { try { dying.disconnect(); } catch {} }, 400);
+    }
+  }
+
+  const musBtn = $('#musBtn'), volRange = $('#volRange'), volOut = $('#volOut');
+  function paintMusic(){
+    musBtn.textContent = 'MUSIC: ' + (musicOn ? 'ON' : 'OFF');
+    musBtn.setAttribute('aria-pressed', String(musicOn));
+    volRange.value = String(vol);
+    volOut.textContent = String(vol);
+    volRange.setAttribute('aria-valuetext', vol + ' percent');
+  }
+  paintMusic();
+
+  musBtn.addEventListener('click', () => {
+    musicOn = !musicOn;
+    store.set('music', musicOn ? 'on' : 'off');
+    paintMusic();
+    musicOn ? startMusic() : stopMusic();
+  });
+
+  volRange.addEventListener('input', () => {
+    vol = Number(volRange.value);
+    store.set('vol', String(vol));
+    volOut.textContent = String(vol);
+    volRange.setAttribute('aria-valuetext', vol + ' percent');
+    if (musicGain && actx) musicGain.gain.setTargetAtTime(gainValue(), actx.currentTime, 0.02);
+  });
+
+  /* Browsers block audio until the visitor interacts. If music was left on
+     from a previous visit, start it at the first real interaction. */
+  if (musicOn){
+    const kick = () => { if (musicOn && !musicGain) startMusic(); };
+    addEventListener('pointerdown', kick, { once: true });
+    addEventListener('keydown', kick, { once: true });
+  }
+
+  /* ----------------------------------------------------------
      Typewriter
      ---------------------------------------------------------- */
   let typing = null;        // {timer, finish}
@@ -111,7 +238,8 @@
     const caret = document.createElement('span');
     caret.className = 'caret';
 
-    const perChar = reduced ? 0 : SPEEDS[cfg.speed];
+    /* read fresh each character so a speed change applies immediately */
+    const delay = () => reduced ? 0 : SPEEDS[cfg.speed];
     let n = 0, chars = 0;
 
     function finish(){
@@ -129,15 +257,15 @@
         nd.el.textContent += nd.text[nd.i++];
         nd.el.appendChild(caret);
         if (++chars % 2 === 0 && nd.text[nd.i-1] !== ' ') sfx.blip();
-        typing = { timer: setTimeout(step, perChar), finish };
+        typing = { timer: setTimeout(step, delay()), finish };
       } else {
         caret.remove();
         n++;
-        typing = { timer: setTimeout(step, perChar * 2), finish };
+        typing = { timer: setTimeout(step, delay() * 2), finish };
       }
     }
 
-    if (perChar === 0) finish(); else { typing = { timer: setTimeout(step, 0), finish }; }
+    if (delay() === 0) finish(); else { typing = { timer: setTimeout(step, 0), finish }; }
   }
 
   /* ----------------------------------------------------------
@@ -148,6 +276,7 @@
   let bi = 0;          // button index
   let li = 0;          // list index
   let section = null;  // current section key
+  const lastPick = {}; // section -> last entry index, so going back lands where you left
 
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 
@@ -172,7 +301,9 @@
   function showList(key, { silent = false } = {}){
     const sec = CONTENT[key];
     if (!sec) return;
-    mode = LIST; section = key; li = 0;
+    mode = LIST; section = key;
+    li = lastPick[key] ?? 0;
+    bi = Math.max(0, KEYS.indexOf(key));
     paintButtons();
     if (!silent) sfx.confirm();
 
@@ -204,6 +335,8 @@
     const entry = CONTENT[key]?.list?.[i];
     if (!entry) return;
     mode = DETAIL; section = key; li = i;
+    lastPick[key] = i;
+    bi = Math.max(0, KEYS.indexOf(key));
     paintButtons();
     if (!silent) sfx.confirm();
 
@@ -249,6 +382,7 @@
        handler swallows Enter and opens a section instead. */
     const ae = document.activeElement;
     const confirmKey = e.key === 'Enter' || e.key === ' ';
+    if (ae && ae.tagName === 'INPUT') return;   // the volume slider owns its arrows
     if (ae && confirmKey && (ae.tagName === 'A' || ae.classList.contains('keys__b'))) return;
 
     const k = e.key.toLowerCase();

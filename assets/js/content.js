@@ -22,8 +22,8 @@ const CONTENT = {
     ]
   },
 
-  /* ---------- FIGHT → research ---------- */
-  fight: {
+  /* ---------- RESEARCH ---------- */
+  research: {
     label: "RESEARCH",
     blurb: "* What I've fought with.",
     prompt: "* Pick your battle.",
@@ -66,8 +66,8 @@ const CONTENT = {
     ]
   },
 
-  /* ---------- ACT → experience ---------- */
-  act: {
+  /* ---------- EXPERIENCE ---------- */
+  experience: {
     label: "EXPERIENCE",
     blurb: "* Where I've worked.",
     prompt: "* Which one?",
@@ -151,8 +151,8 @@ const CONTENT = {
     ]
   },
 
-  /* ---------- ITEM → skills and key items ---------- */
-  item: {
+  /* ---------- SKILLS and key items ---------- */
+  skills: {
     label: "SKILLS",
     blurb: "* What's in the bag.",
     prompt: "* 6 items.",
@@ -217,8 +217,8 @@ const CONTENT = {
     ]
   },
 
-  /* ---------- MERCY → contact ---------- */
-  mercy: {
+  /* ---------- CONTACT ---------- */
+  contact: {
     label: "CONTACT",
     blurb: "* Talk to me.",
     prompt: "* Go ahead.",
@@ -234,24 +234,14 @@ const CONTENT = {
         link: { href: "https://github.com/msyxorap", label: "OPEN GITHUB" }
       },
       {
-        /* EDIT: paste your LinkedIn URL into href below. */
         name: "LINKEDIN",
-        lines: ["Add your LinkedIn URL in content.js."],
-        link: { href: "https://www.linkedin.com/in/", label: "OPEN LINKEDIN" }
+        lines: ["linkedin.com/in/lucas-lutar"],
+        link: { href: "https://www.linkedin.com/in/lucas-lutar/", label: "OPEN LINKEDIN" }
       },
       {
-        /* EDIT: drop your PDF at assets/cv.pdf to make this work. */
         name: "DOWNLOAD CV",
         lines: ["The whole thing as a PDF.", "Two pages."],
         link: { href: "assets/cv.pdf", label: "DOWNLOAD PDF", download: true }
-      },
-      {
-        name: "SPARE",
-        lines: [
-          "You spare Lucas Lutar.",
-          "But nobody came.",
-          "(Press X to go back.)"
-        ]
       }
     ]
   }

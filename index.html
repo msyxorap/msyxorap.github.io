@@ -36,10 +36,10 @@
 
   <!-- ---------- BUTTON ROW ---------- -->
   <nav class="btns" id="btns" aria-label="Main menu">
-    <button class="btn" data-key="fight" type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">FIGHT</span></button>
-    <button class="btn" data-key="act"   type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">ACT</span></button>
-    <button class="btn" data-key="item"  type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">ITEM</span></button>
-    <button class="btn" data-key="mercy" type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">MERCY</span></button>
+    <button class="btn" data-key="research"   type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">RESEARCH</span></button>
+    <button class="btn" data-key="experience" type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">EXPERIENCE</span></button>
+    <button class="btn" data-key="skills"     type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">SKILLS</span></button>
+    <button class="btn" data-key="contact"    type="button"><span class="btn__heart" aria-hidden="true"></span><span class="btn__t">CONTACT</span></button>
   </nav>
 
   <!-- ---------- CONTROL HINT ---------- -->
@@ -49,6 +49,12 @@
     <span class="keys__g"><b>X</b>&thinsp;/&thinsp;<b>Esc</b> back</span>
     <button class="keys__b" id="sndBtn" type="button">SOUND: OFF</button>
     <button class="keys__b" id="spdBtn" type="button">TEXT: NORMAL</button>
+    <button class="keys__b" id="musBtn" type="button">MUSIC: OFF</button>
+    <label class="vol" for="volRange">
+      <span class="vol__l">VOL</span>
+      <input class="vol__r" id="volRange" type="range" min="0" max="100" step="5" value="35">
+      <output class="vol__o" id="volOut">35</output>
+    </label>
   </p>
 
 </main>

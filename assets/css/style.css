@@ -172,9 +172,10 @@ body{
   border:3px solid var(--orange);
   color:var(--orange);
   font-family:"Press Start 2P",monospace;
-  font-size:clamp(9px,1.5vw,14px);
-  line-height:1;
-  padding:clamp(10px,1.8vh,16px) 4px;
+  font-size:clamp(7px,1.15vw,11px);
+  line-height:1.3;
+  padding:clamp(10px,1.8vh,16px) 3px;
+  word-break:break-word;
   display:flex;align-items:center;justify-content:center;gap:.7ch;
   transition:color .08s linear,border-color .08s linear;
 }
@@ -219,6 +220,29 @@ body{
 .keys__b:hover,.keys__b:focus-visible{color:var(--ink);border-color:var(--ink);outline:none}
 .keys__b[aria-pressed="true"]{color:var(--yellow);border-color:var(--yellow)}
 @media (hover:none){.keys__g{display:none}}
+/* ---------- volume slider ---------- */
+.vol{display:flex;align-items:center;gap:8px}
+.vol__l{color:var(--dim)}
+.vol__o{color:var(--ink);min-width:3ch;text-align:right}
+.vol__r{
+  -webkit-appearance:none;appearance:none;
+  width:clamp(70px,10vw,110px);height:14px;
+  background:#000;border:2px solid var(--dim);
+  cursor:pointer;
+}
+.vol__r:hover,.vol__r:focus-visible{border-color:var(--ink);outline:none}
+.vol__r:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.vol__r::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:10px;height:18px;background:var(--yellow);
+  border:0;border-radius:0;cursor:pointer;
+}
+.vol__r::-moz-range-thumb{
+  width:10px;height:18px;background:var(--yellow);
+  border:0;border-radius:0;cursor:pointer;
+}
+.vol__r::-moz-range-track{background:transparent;height:14px}
+
 
 /* ============================================================
    PLAIN-TEXT CV  (no-JS fallback + screen readers + crawlers)
