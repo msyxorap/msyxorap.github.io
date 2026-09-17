@@ -64,18 +64,42 @@
      Sound — synthesised, nothing to download
      ---------------------------------------------------------- */
   let actx = null;
-  function tone(freq, dur, type, gain){
+
+  function ensureCtx(){
+    try { actx ||= new (window.AudioContext || window.webkitAudioContext)(); }
+    catch { return null; }
+    return actx;
+  }
+
+  /* Browsers start the audio context suspended until the visitor interacts.
+     While suspended currentTime does not advance, so anything scheduled
+     piles up on the same timestamp and all of it fires at once the moment
+     the context resumes — a loud pop. So: resume on the first real gesture,
+     and never schedule anything unless the context is actually running. */
+  function unlockAudio(){
+    const a = ensureCtx();
+    if (a && a.state === 'suspended') a.resume();
+  }
+  addEventListener('pointerdown', unlockAudio);
+  addEventListener('keydown', unlockAudio);
+
+  function tone(freq, dur, type, peak){
     if (cfg.sound !== 'on') return;
+    const a = ensureCtx();
+    if (!a || a.state !== 'running') return;
     try {
-      actx ||= new (window.AudioContext || window.webkitAudioContext)();
-      if (actx.state === 'suspended') actx.resume();
-      const t = actx.currentTime;
-      const o = actx.createOscillator(), g = actx.createGain();
-      o.type = type; o.frequency.setValueAtTime(freq, t);
-      g.gain.setValueAtTime(gain, t);
+      const t = a.currentTime + 0.001;
+      const o = a.createOscillator(), g = a.createGain();
+      o.type = type;
+      o.frequency.setValueAtTime(freq, t);
+      /* ramp in and out instead of jumping from silence: an instant gain
+         step is a waveform discontinuity, which is what clicks */
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(peak, t + 0.006);
       g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(g).connect(actx.destination);
-      o.start(t); o.stop(t + dur);
+      o.connect(g).connect(a.destination);
+      o.start(t);
+      o.stop(t + dur + 0.02);
     } catch {}
   }
   const sfx = {
@@ -148,8 +172,13 @@
 
   function startMusic(){
     try {
-      actx ||= new (window.AudioContext || window.webkitAudioContext)();
-      if (actx.state === 'suspended') actx.resume();
+      const a = ensureCtx();
+      if (!a) return;
+      if (a.state === 'suspended') a.resume();
+      if (a.state !== 'running'){        // wait for a gesture, don't pile up
+        addEventListener('pointerdown', () => { if (musicOn && !musicGain) startMusic(); }, { once: true });
+        return;
+      }
       if (!musicGain){
         musicGain = actx.createGain();
         musicGain.connect(actx.destination);
@@ -307,22 +336,24 @@
     paintButtons();
     if (!silent) sfx.confirm();
 
-    type([sec.blurb.replace(/^\* /,''), sec.prompt.replace(/^\* /,'')], () => {
-      const ul = document.createElement('ul');
-      ul.className = 'opts' + (sec.list.length > 4 ? ' opts--2' : '');
-      sec.list.forEach((entry, i) => {
-        const li_ = document.createElement('li');
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'opt';
-        b.textContent = entry.name;
-        b.addEventListener('click', () => { li = i; paintOpts(); showDetail(key, i); });
-        b.addEventListener('mouseenter', () => { li = i; paintOpts(); });
-        li_.appendChild(b); ul.appendChild(li_);
-      });
-      screen.appendChild(ul);
-      paintOpts();
+    type([sec.blurb.replace(/^\* /,''), sec.prompt.replace(/^\* /,'')]);
+
+    /* Built immediately rather than in the typing callback: waiting for the
+       blurb to finish before anything is clickable is maddening. */
+    const ul = document.createElement('ul');
+    ul.className = 'opts' + (sec.list.length > 4 ? ' opts--2' : '');
+    sec.list.forEach((entry, i) => {
+      const li_ = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'opt';
+      b.textContent = entry.name;
+      b.addEventListener('click', () => { li = i; paintOpts(); showDetail(key, i); });
+      b.addEventListener('mouseenter', () => { li = i; paintOpts(); });
+      li_.appendChild(b); ul.appendChild(li_);
     });
+    screen.appendChild(ul);
+    paintOpts();
     setHash(key);
   }
 
@@ -340,18 +371,18 @@
     paintButtons();
     if (!silent) sfx.confirm();
 
-    type([entry.name].concat(entry.lines), () => {
-      if (entry.link){
-        const a = document.createElement('a');
-        a.className = 'go';
-        a.href = entry.link.href;
-        a.textContent = entry.link.label;
-        if (entry.link.download) a.setAttribute('download','');
-        else if (/^https?:/.test(entry.link.href)){ a.target = '_blank'; a.rel = 'noopener'; }
-        screen.appendChild(a);
-      }
-      screen.scrollTop = 0;
-    });
+    type([entry.name].concat(entry.lines));
+
+    if (entry.link){
+      const a = document.createElement('a');
+      a.className = 'go';
+      a.href = entry.link.href;
+      a.textContent = entry.link.label;
+      if (entry.link.download) a.setAttribute('download','');
+      else if (/^https?:/.test(entry.link.href)){ a.target = '_blank'; a.rel = 'noopener'; }
+      screen.appendChild(a);
+    }
+    screen.scrollTop = 0;
     setHash(key + '/' + slug(entry.name));
   }
 
@@ -370,6 +401,12 @@
       bi = i; showList(b.dataset.key);
     });
     b.addEventListener('mouseenter', () => { if (mode === MENU){ bi = i; paintButtons(); } });
+  });
+
+  /* Clicking the text area fast-forwards it, the way Z does. */
+  screen.addEventListener('click', e => {
+    if (e.target.closest('.opt, .go')) return;
+    if (typing) typing.finish();
   });
 
   /* ----------------------------------------------------------
