@@ -244,8 +244,12 @@
      ---------------------------------------------------------- */
   document.addEventListener('keydown', e => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
-    const tag = document.activeElement?.tagName;
-    if (tag === 'A' && e.key === 'Enter') return;      // let links work
+    /* Let focused controls handle their own keys: links, and the
+       SOUND / TEXT toggles in the hint row. Without this the global
+       handler swallows Enter and opens a section instead. */
+    const ae = document.activeElement;
+    const confirmKey = e.key === 'Enter' || e.key === ' ';
+    if (ae && confirmKey && (ae.tagName === 'A' || ae.classList.contains('keys__b'))) return;
 
     const k = e.key.toLowerCase();
 
